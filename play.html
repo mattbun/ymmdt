@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+        <div id="player"></div>
+
+        <script src="socket.io/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script>
+
+var socket = io.connect('http://localhost:8000');
+
+socket.on('play', function(){playVideo();});
+socket.on('stop', function(){stopVideo();});
+socket.on('open', function(data){openVideo(data);});
+
+
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+	socket.emit('ready');
+}
+
+// 5. The API calls this function when the player's state changes.
+//    The function indicates that when playing a video (state=1),
+//    the player should play for six seconds and then stop.
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+
+    }
+}
+function stopVideo() {
+    player.stopVideo();
+}
+function playVideo() {
+    player.playVideo();
+}
+
+function openVideo(data){
+    socket.emit('ackopen');
+
+	if (player) player.destroy();
+
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: data,
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+        </script>
+    </body>
+</html>
+
