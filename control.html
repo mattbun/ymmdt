@@ -40,18 +40,46 @@ function sendOpen(data){
 
 
 
+	<div class="container">
+		<table class="table">
+			<th>Name</th>
+			<th>Controls</th>
+			<th>Video</th>
+			<th>Ready?</th>
+			<tr>
+				<td style="vertical-align:middle">
+					<span>All</span>
+				</td>
 
-    <input type="text" id="vid_id">
-    <button type="button" class="btn btn-primary" onclick='sendOpen($("#vid_id").val())'>Open</button>
-    <span id="ready" hidden>ready</span>
-    
-    <div id="player"></div>
+				<td style="white-space:nowrap">
+					<span>
+					<button type="button" class="btn btn-primary" onclick="sendPlay()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+					<button type="button" class="btn btn-primary" onclick="sendPause()"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+					<button type="button" class="btn btn-danger" onclick="sendStop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+					<span>
+				</td>
 
-    <div>
-        <button type="button" class="btn btn-primary" onclick="sendPlay()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-        <button type="button" class="btn btn-primary" onclick="sendPause()"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
-        <button type="button" class="btn btn-danger" onclick="sendStop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
-    </div>
+				<td>
+					<div class="input-group">
+						<input type="text" id="vid_id" class="form-control" placeholder="Youtube URL">
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="button" onclick='sendOpen($("#vid_id").val())'>Open</button>
+						</span>
+					</div>
+				</td>
+
+				<td style="vertical-align:middle;text-align:center">
+					<span id="ready" class="glyphicon glyphicon-ok" style="color:green;display:none"></span>
+				</td>
+			</tr>
+
+			<tr>
+
+			</tr>
+
+
+		</table>
+	</div>
   </body>
 </html>
 
