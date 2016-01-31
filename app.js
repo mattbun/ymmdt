@@ -2,6 +2,11 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+var loaded = 0;
+var currentlyOpening = 0;
+var registered = [];
+var idCounter = 0;
+
 server.listen(8000);
 
 app.get('/', function (req, res) {
@@ -53,6 +58,29 @@ io.on('connection', function(socket) {
 	socket.on('ackopen', function(data){
 		console.log('ackopen');
 		currentlyOpening += 1;
+	});
+
+	socket.on('register', function(data){
+		console.log('registeredName ' + data);
+
+		var newName;
+
+		if (data){
+			newName = data;
+		}
+		else {
+			newName = String(idCounter);
+			idCounter += 1;
+		}
+
+		registered.push(newName);
+		socket.emit('registeredName', newName);
+	});
+
+	socket.on('getRegistered', function(data){
+
+		socket.emit('getRegisteredResponse', registered);
+
 	});
 
 });

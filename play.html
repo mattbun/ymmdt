@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-        <div id="player"></div>
-
         <script src="socket.io/socket.io.js"></script>
         <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script>
 
 var socket = io.connect('http://localhost:8000');
+var registeredName;
+
+registerName(null); //null will give it a generated name
 
 socket.on('play', function(){playVideo();});
 socket.on('pause', function(){pauseVideo();});
 socket.on('stop', function(){stopVideo();});
 socket.on('open', function(data){openVideo(data);});
+socket.on('registeredName', function(data){registeredName = data});
 
 
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -71,7 +74,21 @@ function openVideo(data){
         }
     });
 }
+
+function registerName(name){
+	socket.emit('register', name);
+}
+
         </script>
+
+		<div class="input-group">
+			<input type="text" id="register_name" class="form-control" placeholder="Name">
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="button" onclick='registerName($("#register_name").val())'>Register</button>
+			</span>
+		</div>
+		<div id="player"></div>
+
     </body>
 </html>
 

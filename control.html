@@ -10,6 +10,7 @@
 var socket = io.connect('http://localhost:8000');
 
 socket.on('ready', function(){$("#ready").show()});
+socket.on('getRegisteredResponse', function(data){loadRegistered(data)});
 
 function sendPlay(){
 	socket.emit("play");
@@ -35,13 +36,47 @@ function sendOpen(data){
 		socket.emit('open', data);
 	}
 }
+
+function loadRegistered(data){
+	console.log(data);
+
+	$.each(data, function(item){
+		console.log(item);
+		var rowHTML = "";
+
+		rowHTML += '<tr>';
+		rowHTML += '	<td style="vertical-align:middle">';
+		rowHTML += '		<span>' + item + '</span>';
+		rowHTML += '	</td>';
+		rowHTML += '	<td style="white-space:nowrap">';
+		rowHTML += '		<button type="button" class="btn btn-primary" onclick="sendPlay()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>';
+		rowHTML += '		<button type="button" class="btn btn-primary" onclick="sendPause()"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>';
+		rowHTML += '		<button type="button" class="btn btn-danger" onclick="sendStop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>';
+		rowHTML += '	</td>';
+		rowHTML += '	<td>';
+		rowHTML += '		<div class="input-group">';
+		rowHTML += '			<input type="text" id="vid_id" class="form-control" placeholder="Youtube URL">';
+		rowHTML += '			<span class="input-group-btn">';
+		rowHTML += '				<button class="btn btn-primary" type="button" onclick=\'sendOpen($("#vid_id").val())\'>Open</button>';
+		rowHTML += '			</span>';
+		rowHTML += '		</div>';
+		rowHTML += '	</td>';
+		rowHTML += '	<td style="vertical-align:middle;text-align:center">';
+		rowHTML += '		<span id="ready" class="glyphicon glyphicon-ok" style="color:green;display:none"></span>';
+		rowHTML += '	</td>';
+		rowHTML += '</tr>';
+
+		$("#registration_table").append(rowHTML);
+					
+	});
+}
         
     </script>
 
 
 
 	<div class="container">
-		<table class="table">
+		<table class="table" id="registration_table">
 			<th>Name</th>
 			<th>Controls</th>
 			<th>Video</th>
@@ -74,9 +109,11 @@ function sendOpen(data){
 			</tr>
 
 			<tr>
-
+				<td><br/></td>
+				<td><br/></td>
+				<td><br/></td>
+				<td><br/></td>
 			</tr>
-
 
 		</table>
 	</div>
