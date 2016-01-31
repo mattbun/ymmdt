@@ -21,17 +21,22 @@ io.on('connection', function(socket) {
 	socket.on('open', function (data) {
         loaded = 0;
         currentlyOpening = 0;
-        console.log("open " + data);
+        console.log('open ' + data);
         socket.broadcast.emit('open', data);
 	});
 
 	socket.on('play', function (data){
-		console.log("play");
+		console.log('play');
 		socket.broadcast.emit('play');
 	});
 
+	socket.on('pause', function (data){
+		console.log('pause');
+		socket.broadcast.emit('pause');
+	});
+
 	socket.on('stop', function(data){
-		console.log("stop");
+		console.log('stop');
 		socket.broadcast.emit('stop');
 	});
 
@@ -46,7 +51,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('ackopen', function(data){
-		console.log("ackopen");
+		console.log('ackopen');
 		currentlyOpening += 1;
 	});
 

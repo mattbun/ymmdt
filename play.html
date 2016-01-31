@@ -11,6 +11,7 @@
 var socket = io.connect('http://localhost:8000');
 
 socket.on('play', function(){playVideo();});
+socket.on('pause', function(){pauseVideo();});
 socket.on('stop', function(){stopVideo();});
 socket.on('open', function(data){openVideo(data);});
 
@@ -42,11 +43,17 @@ function onPlayerStateChange(event) {
 
     }
 }
+
 function stopVideo() {
     player.stopVideo();
 }
+
 function playVideo() {
     player.playVideo();
+}
+
+function pauseVideo() {
+	player.pauseVideo();
 }
 
 function openVideo(data){

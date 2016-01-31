@@ -19,6 +19,10 @@ function sendStop(){
 	socket.emit("stop");
 }
 
+function sendPause(){
+	socket.emit("pause");
+}
+
 function sendOpen(data){
 	$("#ready").hide();
 	var regex = /https?\:\/\/www\.youtube\.com\/watch\?v=(.*)/;
@@ -35,13 +39,18 @@ function sendOpen(data){
     </script>
 
 
+
+
     <input type="text" id="vid_id">
     <button type="button" class="btn btn-primary" onclick='sendOpen($("#vid_id").val())'>Open</button>
     <span id="ready" hidden>ready</span>
+    
+    <div id="player"></div>
 
     <div>
-        <button type="button" class="btn btn-primary" onclick="sendPlay()">Play</button>
-        <button type="button" class="btn btn-danger" onclick="sendStop()">Stop</button>
+        <button type="button" class="btn btn-primary" onclick="sendPlay()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-primary" onclick="sendPause()"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-danger" onclick="sendStop()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
     </div>
   </body>
 </html>
